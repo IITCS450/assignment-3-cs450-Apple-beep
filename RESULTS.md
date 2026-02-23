@@ -67,6 +67,4 @@ Average observed shares:
 In all runs, the process with 70 tickets consistently received the most work, followed by 20, then 10, which matches the intended direction of lottery scheduling.
 
 ## Notes on variance and why longer runs converge
-Lottery scheduling is probabilistic: every scheduling decision is like a random draw weighted by ticket counts. Because of randomness, short runs can be noisy, and the observed CPU shares will not perfectly match the expected ticket ratios.
-
-Even though the results above are stable across runs, they still show variance compared to the ideal 10/20/70 split. In general, increasing the runtime (larger RUN_TICKS) and averaging more trials reduces randomness and makes the observed shares move closer to the expected proportions. This happens because as the number of lottery draws grows, the “luck” from random selection averages out over time.
+In my runs, the ordering was consistent (70 > 20 > 10), but the measured percentages were not close to the ideal 10/20/70 split. This is likely because the run length is still relatively small (RUN_TICKS=2000) and xv6 is running on multiple CPUs (cpu0 and cpu1), so the simple work++ counter is only an approximation of CPU share. With a longer run time and more trials (and/or running with a single CPU), the measured shares should move closer to the expected proportions.
